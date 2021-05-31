@@ -1,0 +1,22 @@
+{
+    "name": "custom/module-imageuploader",
+    "description": "product image uploader",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "web:in",
+            "email": "info@webin.al"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Custom\\ImageUploader\\": ""
+        }
+    }
+}

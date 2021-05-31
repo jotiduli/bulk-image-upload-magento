@@ -1,0 +1,117 @@
+<div class="cutom-importer">
+<form method='post' action='' id="productimport">
+    <p> Enter the path name where your images are located or leave empity for default path</p>
+   <input class="disabled" type="text" name="parentpath" value="var/importexport/import/images/" disabled/>
+   <input class="childpath" type="text" name="childpath" id="childpath"/> 
+    <hr>
+   <input type="checkbox" id="scansubfolders" name="scansubfolders">
+   <label class="labelcheck" for="recursive"> Check Subfolders Too!</label><br>
+   <hr>
+   <input class="checknow" type="button"  id="checknow" value='Check Now'>
+   <input class="submitnow" type="button" id="submit" value='Start Importing'><br><br>
+</form>
+</div>
+<!-- Preview -->
+<div id='preview'></div>
+
+<script type="text/javascript">
+require(['jquery'],function($){
+	$(document).ready(function(){
+		$('#submit').click(function(){
+		    var formKey   = '<?php echo $block->getFormKey() ?>';
+		    var checksub  = $("#scansubfolders").attr("checked") ? 1 : 0;
+		    var childpath = $("#childpath").val();
+		    $("#someId").remove();
+		   	// AJAX request
+		   	$.ajax({
+		     url:'<?php echo $block->getAjaxUrl(); ?>',
+		     type: 'post',
+		     data:{subfold:checksub,checknow:0,childpath:childpath},
+		     dataType: 'json',
+		     showLoader: true,
+		     success: function (response) {
+		         $('<iframe id="someId" height="465px" width="600px" scrolling="auto" style="border: 0;"/>').appendTo('#preview')
+                          .contents().find('body').append(response.data);
+		     }
+		   	});
+		});
+		$('#checknow').click(function(){
+		    var formKey  = '<?php echo $block->getFormKey() ?>';
+		    var checksub = $('#scansubfolders').val(); 
+		    var checksub = $("#scansubfolders").attr("checked") ? 1 : 0;
+		    var childpath = $("#childpath").val();
+		    console.log(childpath);
+		    $("#someId").remove();
+		   	// AJAX request
+		   	$.ajax({
+		     url:'<?php echo $block->getAjaxUrl(); ?>',
+		     type: 'post',
+		     data: {subfold:checksub,checknow:1,childpath:childpath},
+		     dataType: 'json',
+		     showLoader: true,
+		     success: function (response) {
+		        $('<iframe id="someId" height="465px" width="600px"/>').appendTo('#preview')
+                          .contents().find('body').append(response.data);
+
+		     }
+		   	});
+		});
+	});
+});
+</script>
+
+<style>input.checknow {
+    width: 25%;
+    background-color: red;
+    color: #FFF;
+    border: aliceblue;
+    font-weight: bold;
+    height: 30px;
+    border-radius: 6px;
+    margin: 10px 40px 11px 0px;
+}
+
+input.submitnow {
+    width: 25%;
+    background-color: green;
+    color: #FFF;
+    border: aliceblue;
+    font-weight: bold;
+    height: 30px;
+    border-radius: 6px;
+    margin: 10px 40px 11px 0px;
+}
+
+label.labelcheck {
+    font-size: 16px;
+    margin-left: 14px;
+}
+
+input#checkdata {
+    width: 25px;
+    height: 25px;
+    margin: 10px;
+}
+
+input.disabled {
+    width: 19%;
+    margin-bottom: 10px;
+}
+
+input#childpath {
+    width: 40%;
+    margin-bottom: 10px;
+    margin-top: 6px;
+}
+
+input#scansubfolders {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.cutom-importer {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+</style>
